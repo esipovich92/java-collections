@@ -4,8 +4,9 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Artem Esipovich 4/29/2018
@@ -42,45 +43,20 @@ public class DividedLists {
         String allElements = reader.readLine();
         List<Integer> bigList = createBigList(allElements);
 
-        ArrayList<Integer> div2list = new ArrayList<>();
-        ArrayList<Integer> div3list = new ArrayList<>();
-        ArrayList<Integer> otherlist = new ArrayList<>();
-
-        for (Integer element : bigList) {
-            if (element % 2 == 0) {
-                div2list.add(element);
-            }
-            if (element % 3 == 0) {
-                div3list.add(element);
-            }
-            if (element % 2 != 0 && element % 3 != 0) {
-                otherlist.add(element);
-            }
-        }
-
-        Collections.sort(div2list);
-        Collections.sort(div3list);
-        Collections.sort(otherlist);
+        ArrayList<Integer> div2list = bigList.stream().filter(i -> i % 2 == 0).sorted().collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Integer> div3list = bigList.stream().filter(i -> i % 3 == 0).sorted().collect(Collectors.toCollection(ArrayList::new));
+        ArrayList<Integer> otherlist = bigList.stream().filter(i -> !(i % 2 == 0) && !(i % 3 == 0)).sorted().collect(Collectors.toCollection(ArrayList::new));
 
         List<List<Integer>> resultList = createListOfLists(div2list, div3list, otherlist);
 
         printInLine(resultList);
     }
     public static List<Integer> createBigList(String str){
-        List<Integer> bigList = new ArrayList<>();
-        String[] numbers = str.split(" ");
-        for(String number : numbers){
-            bigList.add(Integer.parseInt(number));
-        }
-        return bigList;
+        return Arrays.stream(str.split(" ")).mapToInt(Integer::parseInt).boxed().collect(Collectors.toList());
     }
 
     public static List<List<Integer>> createListOfLists(List<Integer> div2list, List<Integer> div3list ,List<Integer> otherList){
-        List<List<Integer>> resultList = new ArrayList<>();
-        resultList.add(div2list);
-        resultList.add(div3list);
-        resultList.add(otherList);
-        return resultList;
+        return Arrays.asList(div2list, div3list, otherList);
     }
 
     public static void printInLine(List<List<Integer>> lists) {
@@ -89,6 +65,7 @@ public class DividedLists {
                 System.out.print(element + " ");
             }
         }
+        lists.forEach(i -> i.forEach(System.out::println));
     }
 
 }
