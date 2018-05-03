@@ -24,15 +24,12 @@ public class SymmetricHashset {
         resultSet.forEach(System.out::println);
     }
 
-    public static Set<Integer> symDifference(Set<Integer> set1, Set<Integer> set2){
+    private static Set<Integer> symDifference(Set<Integer> set1, Set<Integer> set2){
         Set<Integer> intersection = new HashSet<>(set1);
         intersection.retainAll(set2);
-        Set<Integer> resultSet = new HashSet<>();
+        set1.addAll(set2);
         set1.removeAll(intersection);
-        set2.removeAll(intersection);
-        resultSet.addAll(set1);
-        resultSet.addAll(set2);
-        return resultSet;
+        return set1;
     }
 
 }
