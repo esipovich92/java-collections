@@ -3,10 +3,8 @@ package com.esipovich.collections.treeset_from_several_to_one;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Artem Esipovich 5/4/2018
@@ -29,40 +27,21 @@ public class TreesetFromSeveralToOne {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String[] sets = reader.readLine().split(";");
 
-        Set<Integer> set1 = new HashSet<>();
-        //your code(add elements to set1 from sets[0])
-        for (String element : sets[0].split(" ")) {
-            set1.add(Integer.valueOf(element));
-        }
-
-        Set<Integer> set2 = new HashSet<>();
-        //your code(add elements to set2 from sets[1])
-        for (String element : sets[1].split(" ")) {
-            set2.add(Integer.valueOf(element));
-        }
-
-        Set<Integer> set3 = new HashSet<>();
-        //your code(add elements to set3 from sets[2])
-        for (String element : sets[2].split(" ")) {
-            set3.add(Integer.valueOf(element));
-        }
-
+        Set<Integer> set1 = createSet(sets[0]);
+        Set<Integer> set2 = createSet(sets[1]);
+        Set<Integer> set3 = createSet(sets[2]);
 
         Set<Integer> resultTreeSet = unionTreeLargeNumber(set1,set2,set3);
 
-        //print elements of resultTreeSet(using System.out.printLn()) below
-        for (Integer element : resultTreeSet) {
-            System.out.println(element);
-        }
-
-
+        resultTreeSet.forEach(System.out::println);
     }
 
-    public static TreeSet<Integer> unionTreeLargeNumber(Set<Integer> set1, Set<Integer> set2, Set<Integer> set3){
-        TreeSet<Integer> resultSet = new TreeSet<>();
-        resultSet.add(Collections.max(set1));
-        resultSet.add(Collections.max(set2));
-        resultSet.add(Collections.max(set3));
-        return (TreeSet<Integer>) resultSet.descendingSet();
+    private static Set<Integer> unionTreeLargeNumber(Set<Integer> set1, Set<Integer> set2, Set<Integer> set3){
+        return new TreeSet<>(Arrays.asList(Collections.max(set1), Collections.max(set2), Collections.max(set3))).descendingSet();
     }
+
+    private static Set<Integer> createSet(String elements) {
+        return Arrays.stream(elements.split(" ")).map(Integer::parseInt).collect(Collectors.toSet());
+    }
+
 }
