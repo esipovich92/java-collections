@@ -3,10 +3,7 @@ package com.esipovich.collections.iterator_delete;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Arrays;
 
 /**
  * @author Artem Esipovich 5/5/2018
@@ -24,22 +21,10 @@ public class IteratorDelete {
     public static void main(String[] args) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         String lineOfNumbers = reader.readLine();
-        List<Integer> numbers = new ArrayList<>();
-        for (String number : lineOfNumbers.split(" ")){
-            numbers.add(Integer.parseInt(number));
-        }
-        Collections.sort(numbers);
-        Iterator<Integer> iterator = numbers.iterator();
-        while (iterator.hasNext()){
-            int i = iterator.next();
-            if (i % 2 == 0) {
-                iterator.remove();
-            }
-        }
-
-        for (int i : numbers) {
-            System.out.println(i);
-        }
-
+        Arrays.stream(lineOfNumbers.split(" "))
+                .map(Integer::parseInt)
+                .filter(i -> i % 2 != 0)
+                .sorted()
+                .forEach(System.out::println);
     }
 }
