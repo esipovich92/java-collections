@@ -24,11 +24,10 @@ public class MapBasicMethods {
         mapShare(map).forEach((k, v) -> System.out.println(k +":" + v));
     }
 
-    public static Map<String, String> mapShare(Map<String, String> map) {
+    private static Map<String, String> mapShare(Map<String, String> map) {
         String aValue = map.get("a");
         if (aValue != null){
             map.put("b", aValue);
-
         }
         map.remove("c");
         return map;
