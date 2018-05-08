@@ -1,8 +1,10 @@
 package com.esipovich.collections.map_basics_methods_2;
 
+import java.util.Arrays;
 import java.util.Map;
 import java.util.SortedMap;
 import java.util.TreeMap;
+import java.util.stream.Collectors;
 
 /**
  * @author Artem Esipovich 5/8/2018
@@ -22,15 +24,7 @@ public class MapBasicsMethods2 {
     }
 
     private static SortedMap<String, Integer> wordCount(String[] strings) {
-        Map<String, Integer> occurancies = new TreeMap<>();
-        for (String s : strings) {
-            if (occurancies.get(s) == null) {
-                occurancies.put(s, 1);
-            } else {
-                occurancies.put(s, occurancies.get(s) + 1);
-            }
-        }
-        return (SortedMap<String, Integer>) occurancies;
+        return new TreeMap<>(Arrays.stream(strings).collect(Collectors.toMap(k -> k, v -> 1, Integer::sum)));
     }
     private static void printMap(Map<String, Integer> map){
         map.forEach((k, v) -> System.out.println(k + " : " + v));
