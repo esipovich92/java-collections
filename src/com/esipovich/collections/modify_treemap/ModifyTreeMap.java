@@ -29,16 +29,9 @@ public class ModifyTreeMap {
     }
 
     private static NavigableMap<Integer, String> getSubMap(NavigableMap<Integer, String> map){
-        List<Integer> keys = new ArrayList<>(map.keySet());
-        if (keys.get(0) % 2 != 0){
-            int fromKey = keys.get(0);
-            int toKey = fromKey + 4;
-            return map.subMap(fromKey, true, toKey, true).descendingMap();
-        } else {
-            int toKey = keys.get(keys.size() - 1);
-            int fromKey = toKey - 4;
-            return map.subMap(fromKey, true, toKey, true).descendingMap();
-        }
+        return map.firstKey() % 2 != 0
+                ? map.subMap(map.firstKey(), true, map.firstKey() + 4, true).descendingMap()
+                : map.subMap(map.lastKey() - 4, true, map.lastKey(), true).descendingMap();
     }
 
 }
